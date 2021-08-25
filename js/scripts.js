@@ -1,6 +1,3 @@
-//Business Logic
-let P1currentPoints = 0;
-
 
 function Player(total,current) {
   this.total = total;
@@ -9,8 +6,6 @@ function Player(total,current) {
 
 Player.prototype.roll = function(result) {
   this.current += result;
-  P1currentPoints = this.current;
-  console.log(P1currentPoints);
 }
 
 function rollDice(min, max) {
@@ -18,27 +13,51 @@ function rollDice(min, max) {
   ;
 }
 
+Player.prototype.hold = function(current) {
+  this.total += current;
+}
 
 
 
-//submit button to call rollDice
+
 //if number is not 1, add total to currentPoints
-//if dice rolls 1, switch to P2 with message
-//submit button to end turn and #switch to P2
-//display number rolled
+//if dice rolls 1, pop alert and hide current players button and
+//shows the other players button
 //display current total somewhere
+
 //display P1 total somewhere
 //display P2 total somewhere
 
+//display number rolled
+
 //UI logic
+
+
 let pOneScore = new Player (0,0);
 let results = 0
-
+let pTwoScore = new Player (0,0);
 $(document).ready(function() {
-$("form#roll-dice").submit(function(event) {
-  event.preventDefault();
-  results = rollDice(1,6);
-  pOneScore.roll(results);
-  console.log(pOneScore.current);
+  $("form#roll-dice1").submit(function(event) {
+    event.preventDefault();
+    results = rollDice(1,6);
+    pOneScore.roll(results);
+    console.log(pOneScore.current);
+    $("#chalkboard1").text(pOneScore.current);
+  });
+  $("form#hold-pone").submit(function(event) {
+    event.preventDefault();
+    pOneScore.hold(current);
+    console.log(pOneScore.total);
+    // $("form#roll-dice1").hide();
+    // $("form#roll-dice2").show();
+  });
+
+  $("form#roll-dice2").submit(function(event){
+    event.preventDefault();
+    results= rollDice(1,6);
+    pTwoScore.roll(results);
+    console.log(pTwoScore.current);
+    $("#chalkboard2").text(pTwoScore.current);
   });
 });
+
